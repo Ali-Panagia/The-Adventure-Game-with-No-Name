@@ -3,6 +3,6 @@
 # Your goal for this game is to reach the middle of the maze,
 # but there will be twists and turns that could lead you to certain doom.
 
-#Controls
+# Controls
 
 # w is to move up, a is to move left, s is to move down, and d is to move right.
