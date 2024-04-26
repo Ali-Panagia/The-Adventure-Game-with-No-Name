@@ -5,4 +5,12 @@
 
 # Controls
 
-# w is to move up, a is to move left, s is to move down, and d is to move right.
+# w is to move up,
+# a is to move left,
+# s is to move down,
+# and d is to move right.
+
+# Credits
+
+# The original code was made by Roland Labana
+# Most of the additions of his code will be made by Alessandro (Ali) Panagia.
