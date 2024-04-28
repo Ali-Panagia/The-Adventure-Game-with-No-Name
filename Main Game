@@ -4,6 +4,20 @@
 #moving up decreases the y location and
 #moving left decreases the x location and vice versa
 import random
+import sys
+
+key = 0
+
+PATH=0
+WALL=1
+PIT_FALL=2
+KEY=3
+DOOR=4
+GOAL=5
+LOCKED_DOOR=6
+ENEMY=7
+SWORD=8
+
 Map = [
 			[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
 			[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1 ],
@@ -30,6 +44,8 @@ def drawMap(currX, currY):
                 print("*  ", end="")
             else:
                 print (Map[y][x]," ", end ="")
+##            if (Map[y][x] != WALL):
+##                print ("   ", end="")
         print()
     print()
     
@@ -39,36 +55,69 @@ def drawMap(currX, currY):
 #If the player can move, then the current location will be updated
 #If the player cannot move due to a wall, the location will not be updated
     
-def movePlayer(x,y,moveDir):
+def movePlayer(x,y,key,moveDir):
     #assume invalid move is attempted
     badMove = True
 
+    if Map[y][x] == 2:
+        sys.exit("You fell in a pitfall and died. Womp. Womp.")
+        return (x,y,key)
+        
+    if Map[y][x] == 4:
+        print ("Not finished yet.")
+
+    if Map[y][x] == 5:
+        sys.exit("You Win! Now what?")
+        return(y,x,key)
+
     #Now check if the move is valid - brute force method - better ways exist
     if moveDir == "w":
-        if Map[y-1][x] == 0:
+        if Map[y-1][x] != 1:
             #print ("valid up move")
-            return (x, y-1)
+            return (x, y-1, key)
 
     if moveDir == "s":
-        if Map[y+1][x] == 0:
+        if Map[y+1][x] != 1:
             #print ("valid down move")
-            return (x, y+1)
+            return (x, y+1, key)
 
     if moveDir == "a":
-        if Map[y][x-1] == 0:
+        if Map[y][x-1] != 1:
             #print ("valid left move")
-            return (x-1, y)
+            return (x-1, y, key)
 
     if moveDir == "d":
-        if Map[y][x+1] == 0:
+        if Map[y][x+1] != 1:
             #print ("valid right move")
-            return (x+1, y)
+            return (x+1, y, key)        
+
+    if Map[y][x] == 3:
+        pickUpKey = input("There is a key on the ground. Do you want to pick it up? y/n ")
+        pickupKey = pickUpKey.lower()
+
+        if (pickupKey == "yes" or "y"):
+            print ("You found a key!")
+            key=key+1
+            print ("You have",key,"key(s).")
+            return (x,y,key)
+        elif (pickupKey == "no" or "n"):
+            print ("Well why did you come over to it in the first place?")
+            return (x,y,key)
         
+    if Map[y][x] == 6:
+        
+        if (key == 0):
+            print("You don't have a key, so... yeah.")
+            return (x,y,key)
+        if (key >= 1):
+            print ("you unlocked the door!")
+            key=key-1
+            print ("You have",key,"key(s).")
+            return (x,y,key)
     #they attempted a bad move
     if badMove:
         print ("**Invalid move** Try again.")
-        return (x,y)   #return the same location they are in since no move
-
+        return (x,y,key)   #return the same location they are in since no move
 
 
 #Set our starting location
@@ -81,6 +130,6 @@ drawMap(currX, currY)
 #Forever just let the player move around the map on the path
 while True:
     moveDir = input("Enter direction (w,s,a,d): ")
-    currX, currY = movePlayer(currX, currY, moveDir)
+    currX, currY, key = movePlayer(currX, currY, key, moveDir)
     drawMap(currX, currY)
     
