@@ -19,10 +19,17 @@
 # 4 is a door, you can enter the door, but you can't exit.
 # 5 is the end goal.
 # 6 is a locked door.
-# 7 is a enemy of some kind.
-# 8 is a sword to kill the enemy.
+# 7 is a wheel to gamble your life.
+# 8 is a river. That's it.
 
 # Credits
 
-# The original code was made by Roland Labana
+# The original code was made by Roland Labana.
 # Most of the additions of his code will be made by Alessandro (Ali) Panagia.
+
+# The beta testers are as follows:
+# Jonah Baumann
+# Davide Panagia (My dad)
+# Suzette Noah (My tutor)
+# Giovanni
+# Sergio
