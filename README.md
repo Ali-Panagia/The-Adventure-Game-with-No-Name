@@ -1,7 +1,7 @@
 # The-Adventure-Game-with-No-Name
 # This is the Adventure Game with No Name.
 # Your goal for this game is to reach the middle of the maze,
-# but there will be twists and turns that could lead you to certain doom.
+# but there will be twists and turns that could lead you to either fortune or certain doom.
 
 # Controls
 
@@ -9,6 +9,7 @@
 # a is to move left,
 # s is to move down,
 # and d is to move right.
+# after you put in the movement of choice, press enter
 
 # Interactions
 
@@ -33,3 +34,5 @@
 # Suzette Noah (My tutor)
 # Giovanni
 # Sergio
+# Jonathan
+# Ms. Rose
