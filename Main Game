@@ -79,10 +79,10 @@ def movePlayer(x,y,key,moveDir):
         elif Map[y-1][x] == DOOR:
             print ("You go through a door but it locks behind you.")
             return (x,y-1,key)
-        #see line 194
+        #see line 195
         elif Map[y-1][x] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #see line 206
         elif (Map[y-1][x] == WHEEL):
             return (x, y-1, wheelfun(key))
         #To move up
@@ -103,10 +103,10 @@ def movePlayer(x,y,key,moveDir):
         elif Map[y+1][x] == DOOR:
             print ("It's still locked.")
             return (x,y,key)
-        #see line 194
+        #see line 195
         elif Map[y+1][x] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #see line 206
         elif (Map[y+1][x] == WHEEL):
             return (x, y+1, wheelfun(key))
         #To move down 
@@ -127,10 +127,10 @@ def movePlayer(x,y,key,moveDir):
         elif Map[y][x-1] == DOOR:
             print ("It's still locked.")
             return (x,y,key)
-        #see line 194
+        #see line 195
         elif Map[y][x-1] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #see line 206
         elif (Map[y][x-1] == WHEEL):
             return (x-1, y, wheelfun(key))
         #To move left
@@ -151,10 +151,10 @@ def movePlayer(x,y,key,moveDir):
         elif Map[y][x+1] == DOOR:
             print ("You go through a door but it locks behind you.")
             return (x+1,y,key)
-        #see line 194
+        #see line 195
         elif Map[y][x+1] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #see line 206
         elif (Map[y][x+1] == WHEEL):
             return (x+1, y, wheelfun(key))
         #To move right
@@ -179,10 +179,11 @@ def keyfun (key):
     if (key >= 1):
         print ("There is nothing here.")
         return (key)
-    else:
+    elif (key == 0):
         pickUpKey = input("There is a key on the ground. Do you want to pick it up? y/n ")
+        pickupKey=pickUpKey.lower()
 
-        if (pickUpKey == "yes") or (pickUpKey == "y"):
+        if (pickupKey == "yes") or (pickupKey == "y"):
             print ("You found a key!")
             key=key+1
             print ("You have",key,"key(s).")
@@ -205,9 +206,10 @@ def lockedDoorFun(x,y,key):
 #Function for the wheel to spin.
 def wheelfun(key):
     Gamble=input("There is a wheel where it has a 1/3 chance for you to live, die, or give you a key. Will you spin it? y/n ")
+    gamble=Gamble.lower()
     
     #print("gambling is awesome")
-    if (Gamble == "yes") or (Gamble == "y"):
+    if (gamble == "yes") or (gamble == "y"):
         spin=random.randint(1,3)
         #print("I love gambling")
         if (spin == 1):
@@ -224,7 +226,7 @@ def wheelfun(key):
         else:
             print ("You live, sadly.")
             return (key)
-    elif (Gamble == "no") or (Gamble == "n"):
+    elif (gamble == "no") or (gamble == "n"):
         print ("You resist the urge and press on.")
         return (key)
     else:
@@ -244,4 +246,3 @@ while True:
     moveDir = input("Enter direction (w,s,a,d): ")
     currX, currY, key = movePlayer(currX, currY, key, moveDir)
     drawMap(currX, currY)
-    
