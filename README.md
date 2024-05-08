@@ -36,3 +36,5 @@
 # Sergio
 # Jonathan
 # Ms. Rose
+# Sammy Newton (My best friend)
+# Kilye (A friend of mine)
