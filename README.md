@@ -42,3 +42,4 @@
 # Kilye (A friend of mine) Win: N
 # Jayden Maldonado Win: Y
 # Douglas Guevara Win: N
+# Enzo De Angeles Win: N
