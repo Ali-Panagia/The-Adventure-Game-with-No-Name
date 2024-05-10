@@ -1,3 +1,4 @@
+#Alessandro Panagia
 ## Define a map and let the player move around it
 #Define our map: 1 = wall, 0 = path
 #0,0 is the top left of the map, therefore...
@@ -17,17 +18,19 @@ GOAL=5
 LOCKED_DOOR=6
 WHEEL=7
 RIVER=8
+SEWER=9
+DRAIN=10
 Map = [
 			[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
 			[ 1, 8, 8, 8, 8, 8, 8, 8, 8, 3, 1 ],
 			[ 1, 7, 0, 0, 0, 0, 0, 4, 0, 0, 1 ],
-			[ 1, 0, 1, 1, 1, 1, 1, 1, 2, 0, 1 ],
-			[ 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+			[ 1, 0, 0, 1, 1, 1, 1, 1, 2, 0, 1 ],
+			[ 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ],
 			[ 1, 0, 0, 0, 2, 5, 6, 0, 0, 3, 1 ],
-			[ 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1 ],
-			[ 1, 0, 1, 1, 0, 0, 2, 1, 0, 1, 1 ],
-			[ 1, 0, 1, 1, 4, 1, 1, 1, 0, 1, 1 ],
-			[ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 ],
+			[ 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1 ],
+			[ 1, 0, 9, 1, 0, 0, 2, 1, 0, 1, 1 ],
+			[ 1, 0, 0, 1, 4, 1, 1, 1, 0, 1, 1 ],
+			[ 1, 0, 0, 0, 0, 0, 0, 0, 0, 10, 1 ],
 			[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
 	]
 
@@ -72,19 +75,25 @@ def movePlayer(x,y,key,moveDir):
     
     #If the player moved up
     if moveDir.lower() == "w":
-        #see line 177
+        #Go to the key function.
         if Map[y-1][x] == KEY:
             return (x, y-1, keyfun(key))
         #For the door when it locks behind you.
         elif Map[y-1][x] == DOOR:
             print ("You go through a door but it locks behind you.")
-            return (x,y-2,key,)
-        #see line 194
+            return (x,y-2,key)
+        #Go to the locked door function.
         elif Map[y-1][x] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #Go to the wheel function.
         elif (Map[y-1][x] == WHEEL):
             return (x, y-1, wheelfun(key))
+        #Go to the sewer function.
+        elif Map[y-1][x]==SEWER:
+            return(x,y-1,sewerfun(key))
+        #Go to the drain function.
+        elif Map[y-1][x]==DRAIN:
+            return(x,y-1,drainfun(key))
         #To move up
         elif (Map[y-1][x] != WALL) and (Map[y-1][x] != RIVER):
             #print ("valid up move")
@@ -96,19 +105,25 @@ def movePlayer(x,y,key,moveDir):
 
     #If the player moved down
     if moveDir.lower() == "s":
-        #see line 177
+        #Go to the key function.
         if Map[y+1][x] == KEY:
             return (x, y+1, keyfun(key))
         #To show that the door is still locked
         elif Map[y+1][x] == DOOR:
             print ("It's still locked.")
             return (x,y,key)
-        #see line 194
+        #Go to the locked door function.
         elif Map[y+1][x] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #Go to the wheel function.
         elif (Map[y+1][x] == WHEEL):
             return (x, y+1, wheelfun(key))
+        #Go to the sewer function.
+        elif Map[y+1][x]==SEWER:
+            return(x,y+1,sewerfun(key))
+        #Go to the drain function.
+        elif Map[y+1][x]==DRAIN:
+            return(x,y+1,drainfun(key))
         #To move down 
         elif (Map[y+1][x] != WALL) and (Map[y+1][x] != RIVER):
             #print ("valid down move")
@@ -120,19 +135,25 @@ def movePlayer(x,y,key,moveDir):
 
     #If the player moved left
     if moveDir.lower() == "a":
-        #see line 177
+        #Go to the key function.
         if Map[y][x-1] == KEY:
             return(x-1,y,keyfun(key))
         #To show that the door is still locked
         elif Map[y][x-1] == DOOR:
             print ("It's still locked.")
-            return (x,y,key,)
-        #see line 194
+            return (x,y,key)
+        #Go to the locked door function.
         elif Map[y][x-1] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #Go to the wheel function.
         elif (Map[y][x-1] == WHEEL):
             return (x-1, y, wheelfun(key))
+        #Go to the sewer function.
+        elif Map[y][x-1]==SEWER:
+            return(x-1,y,sewerfun(key))
+        #Go to the drain function.
+        elif Map[y][x-1]==DRAIN:
+            return(x-1,y,drainfun(key))
         #To move left
         elif (Map[y][x-1] != WALL) and (Map[y][x-1] != RIVER):
             #print ("valid left move")
@@ -144,19 +165,25 @@ def movePlayer(x,y,key,moveDir):
 
     #If the player moved right
     if moveDir.lower() == "d":
-        #see line 177
+        #Go to the key function.
         if Map[y][x+1] == KEY:
             return (x+1, y, keyfun(key))
         #For the door when it locks behind you
         elif Map[y][x+1] == DOOR:
             print ("You go through a door but it locks behind you.")
             return (x+2,y,key)
-        #see line 194
+        #Go to the locked door function.
         elif Map[y][x+1] == LOCKED_DOOR:
             return (lockedDoorFun(x,y,key))
-        #see line 205
+        #Go to the wheel function.
         elif (Map[y][x+1] == WHEEL):
             return (x+1, y, wheelfun(key))
+        #Go to the sewer function.
+        elif Map[y][x+1]==SEWER:
+            return(x+1,y,sewerfun(key))
+        #Go to the drain function.
+        elif Map[y][x+1]==DRAIN:
+            return(x+1,y,drainfun(key))
         #To move right
         elif (Map[y][x+1] != WALL) and (Map[y][x+1] != RIVER):
             #print ("valid right move")
@@ -176,7 +203,7 @@ def movePlayer(x,y,key,moveDir):
 
 # Function for picking up the key.
 def keyfun (key):
-    if (key >= 1):
+    if (key >= 1) or (key <= -1):
         print ("There is nothing here.")
         return (key)
     elif (key == 0):
@@ -195,14 +222,16 @@ def keyfun (key):
 
 # Function for the locked door.
 def lockedDoorFun(x,y,key):
-    if (key == 0):
+##    if (Map[y][x+1]==PATH):
+##        sys.exit("WOW!")
+    if (key != 1):
         print("You don't have a key, so... yeah.")
         return (x,y,key)
-    if (key >= 1):
+    else:
         print ("you unlocked the door!")
         key=key-1
         print ("You have",key,"key(s).")
-        return (x-1,y,key)
+        return (x-2,y,key)
     
 #Function for the wheel to spin.
 def wheelfun(key):
@@ -221,10 +250,8 @@ def wheelfun(key):
                 print ("You have",key,"key(s).")
                 return (key)
             #I was out of ideas when I wrote this.
-            elif (key == 1):
-                sys.exit("Ok I have no idea for if you got another key here, so I'm just going to say that you win.")
             else:
-                sys.exit("This wasn't suppost to happen.")
+                sys.exit("Ok I have no idea for if the key value is different, so I'm just going to say that you win.")
         elif (spin == 2):
             sys.exit("Some wierd magic twisted your insides until you poped. The moral of the story there is to never gamble.")
         else:
@@ -236,6 +263,27 @@ def wheelfun(key):
     else:
         print("Um... ok?")
         return (key)
+
+#Function for dropping the key in the sewer.
+def sewerfun(key):
+    if (key >= 1):
+        print ("So the key dropped from your pockets into the sewers. Don't worry, you can get it back from the sewer drain.")
+        key=key-2
+        #The reason why I subtracted 2 from the key is because making it 0 would result in getting the key back in the drain at the start.
+        return(key)
+    else:
+        print("It's the sewer. Don't drop anything in there.")
+        return(key)
+
+#Function for getting the key back from the sewer drain.
+def drainfun(key):
+    if (key == -1):
+        print ("It may be gross, but you got your key back.")
+        key=key+2
+        return(key)
+    else:
+        print("It's a sewer drain. If you want to get sick, then be my guest.")
+        return(key)
 
 #Set our starting location
 currX = 1
