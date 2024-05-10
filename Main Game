@@ -6,7 +6,7 @@
 #moving left decreases the x location and vice versa
 import random
 import sys
-
+import time
 key = 0
 
 PATH=0
@@ -44,7 +44,7 @@ def drawMap(currX, currY):
         for x in range (0,len(Map[y])):
             if (currX == x) and (currY == y):   #print * if they are in this square
                 print("*  ", end="")
-            elif (Map[y][x] != WALL) and (Map[y][x] != RIVER):
+            elif (Map[y][x] != WALL) and (Map[y][x] != RIVER) and (Map[y][x] != GOAL):
                 print ("   ", end="")
             else:
                 print (Map[y][x]," ", end ="")
@@ -290,7 +290,15 @@ def drainfun(key):
 #Set our starting location
 currX = 1
 currY = 9
-
+#Instructions before starting the game.
+print("Welcome to the Adventure Game with No Name.")
+time.sleep(2)
+print("Your goal is to get to the middle of the map where it says 5.")
+time.sleep(2)
+print("Also the person guiding you really doesn't want you to win.")
+time.sleep(2)
+print("So what are you waiting for, get too it.")
+time.sleep(2)
 #draw the map the first time before asking for a move
 drawMap(currX, currY)
 
