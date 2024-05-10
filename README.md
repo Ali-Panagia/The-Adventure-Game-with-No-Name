@@ -41,3 +41,4 @@
 # Sammy Newton (My best friend) Win: N
 # Kilye (A friend of mine) Win: N
 # Jayden Maldonado Win: Y
+# Douglas Guevara Win: N
