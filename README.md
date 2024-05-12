@@ -44,3 +44,6 @@
 # Douglas Guevara Win: N
 # Enzo De Angeles Win: N
 # Austin Keough Win: N
+
+# Link to User Manual:
+# https://docs.google.com/presentation/d/1lwQ3ayQhEneRzCSX2c6kJInzLazjugnZZHuLn7hpHFM/edit#slide=id.g2db8d85eb83_0_60
