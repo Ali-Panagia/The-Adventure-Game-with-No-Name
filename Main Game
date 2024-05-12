@@ -203,10 +203,13 @@ def movePlayer(x,y,key,moveDir):
 
 # Function for picking up the key.
 def keyfun (key):
+    #you can't get more than 1 key.
     if (key >= 1) or (key <= -1):
         print ("There is nothing here.")
         return (key)
+    #When you pick up the key for the first time.
     elif (key == 0):
+        #Asking you if you want to pick up the key.
         pickUpKey = input("There is a key on the ground. Do you want to pick it up? y/n ")
         pickupKey=pickUpKey.lower()
 
@@ -222,11 +225,11 @@ def keyfun (key):
 
 # Function for the locked door.
 def lockedDoorFun(x,y,key):
-##    if (Map[y][x+1]==PATH):
-##        sys.exit("WOW!")
+    #The locked door will never open if you don't have a key.
     if (key != 1):
         print("You don't have a key, so... yeah.")
         return (x,y,key)
+    #When you open the locked door with a key.
     else:
         print ("you unlocked the door!")
         key=key-1
@@ -235,10 +238,12 @@ def lockedDoorFun(x,y,key):
     
 #Function for the wheel to spin.
 def wheelfun(key):
+    #Input for wheel.
     Gamble=input("There is a wheel where it has a 1/3 chance for you to live, die, or give you a key. Will you spin it? y/n ")
     gamble=Gamble.lower()
     
     #print("gambling is awesome")
+    #If the player wants to test their luck.
     if (gamble == "yes") or (gamble == "y"):
         spin=random.randint(1,3)
         #print("I love gambling")
@@ -259,9 +264,11 @@ def wheelfun(key):
         else:
             print ("You live, sadly.")
             return (key)
+    #If you don't want to test your luck.
     elif (gamble == "no") or (gamble == "n"):
         print ("You resist the urge and press on.")
         return (key)
+    #If the game doesn't register what you are saying.
     else:
         print("Um... ok?")
         return (key)
