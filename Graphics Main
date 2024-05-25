@@ -12,35 +12,30 @@ from turtle import *
 screen = Screen()
 screen.setup(800,800)
 #add an image so the wall's image is Pink Floyd's The Wall album
+turtle.addshape("The Wall.gif")
+screenad = 200
+row=11
+column=11
 
-MapX=-200
-MapY=200
-size=35
+#Set our starting location
+currX = 1
+currY = 9
 
-Map=Turtle()
-Map.clear()
-Map.penup()
 
-Map.shape("circle")
-Map.position()
-Map.speed(0)
-Map.sety(0)
-Map.setheading(0)
-Map.goto(-200,200)
+MapDraw=Turtle()
+MapDraw.clear()
+MapDraw.penup()
 
-Map.pendown()
+MapDraw.shape("circle")
+MapDraw.position()
+MapDraw.speed(0)
+MapDraw.sety(0)
+MapDraw.setheading(0)
+MapDraw.goto(-200,200)
 
-for column in range(0,11):
-    for row in range(0,11):
-        for space in range(0,4):
-            Map.forward(size)
-            Map._rotate(90)
-        Map.forward(size)
-    Map.penup()
-    MapY=MapY-size
-    Map.goto(MapX,MapY)
-    Map.pendown()
-Map.hideturtle()
+MapDraw.pendown()
+MapDraw.hideturtle()
+
 
 key = 0
 
@@ -55,6 +50,7 @@ WHEEL=7
 RIVER=8
 SEWER=9
 DRAIN=10
+SIZE=35
 Map = [
 			[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
 			[ 1, 8, 8, 8, 8, 8, 8, 8, 8, 3, 1 ],
@@ -72,19 +68,61 @@ Map = [
 
 #Define a function to print our Map and current Player location
 
-##def drawMap(currX, currY):
-##    #print ("map size is : ", len(Map), " rows by ", len(Map[0]), " columns")
-##    print()
-##    for y in range (0, len(Map)):
-##        for x in range (0,len(Map[y])):
-##            if (currX == x) and (currY == y):   #print * if they are in this square
-##                print("*  ", end="")
-##            elif (Map[y][x] != WALL) and (Map[y][x] != RIVER) and (Map[y][x] != GOAL):
-##                print ("   ", end="")
-##            else:
-##                print (Map[y][x]," ", end ="")
-##        print()
-##    print()
+def drawplayer(x, y):
+    player=Turtle()
+    player.clear()
+    player.penup()
+
+    player.shape("circle")
+    player.position()
+    player.speed(0)
+    player.sety(0)
+    player.setheading(90)
+    player.goto(x,y)
+    return(player)
+
+def flow(x, y, MapDraw):
+    MapDraw.penup()
+    MapDraw.goto(x, y)
+    MapDraw.pendown()
+    MapDraw.fillcolor("light blue")
+    MapDraw.begin_fill()
+    for square in range(4):
+        MapDraw.forward(SIZE)
+        MapDraw.left(90)
+    MapDraw.end_fill()
+
+def bricks_in_the_wall(x, y, MapDraw):
+    MapDraw.penup()
+    MapDraw.goto(x, y)
+    MapDraw.pendown()
+    MapDraw.fillcolor("brown")
+    MapDraw.begin_fill()
+    for square in range(4):
+        MapDraw.forward(SIZE)
+        MapDraw.left(90)
+    MapDraw.end_fill()
+
+def drawsquare(x, y, MapDraw):
+    MapDraw.penup()
+    MapDraw.goto(x, y)
+    MapDraw.pendown()
+    for square in range(4):
+        MapDraw.forward(SIZE)
+        MapDraw.left(90)
+
+for r in range(row):
+    for c in range(column):
+        x = SIZE*c-screenad
+        y = SIZE*-r+screenad
+        if currX == c and currY == r:
+            player=drawplayer(x+SIZE/2, y+SIZE/2)
+        elif (Map[r][c] == WALL):
+            bricks_in_the_wall(x, y, MapDraw)
+        elif (Map[r][c] == RIVER):
+            flow(x, y, MapDraw)
+        else:
+            drawsquare(x, y, MapDraw)
     
 
 #Define our function that will move the player
@@ -114,68 +152,68 @@ def moveForward(x,y,key,moveDir):
         #Go to the key function.
         if Map[y-1][x] == KEY:
             if player.heading()==90:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(90)
-                player.forward(35)
+                player.forward(SIZE)
             return (x, y-1, keyfun(key))
         #For the door when it locks behind you.
         elif Map[y-1][x] == DOOR:
             if player.heading()==90:
-                player.forward(70)
+                player.forward(SIZE*2)
             else:
                 player.setheading(90)
-                player.forward(70)
+                player.forward(SIZE*2)
             print ("You go through a door but it locks behind you.")
             return (x,y-2,key)
         #Go to the locked door function.
         elif Map[y-1][x] == LOCKED_DOOR:
             if key != 1:
                 if player.heading()==90:
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 else:
                     player.setheading(90)
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 return (lockedDoorFun(x,y,key))
             else:
                 if player.heading()==90:
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 else:
                     player.setheading(90)
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 return (lockedDoorFun(x,y,key))
         #Go to the wheel function.
         elif (Map[y-1][x] == WHEEL):
             if player.heading()==90:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(90)
-                player.forward(35)
+                player.forward(SIZE)
             return (x, y-1, wheelfun(key))
         #Go to the sewer function.
         elif Map[y-1][x]==SEWER:
             if player.heading()==90:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(90)
-                player.forward(35)
+                player.forward(SIZE)
             return(x,y-1,sewerfun(key))
         #Go to the drain function.
         elif Map[y-1][x]==DRAIN:
             if player.heading()==90:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(90)
-                player.forward(35)
+                player.forward(SIZE)
             return(x,y-1,drainfun(key))
         #To move up
         elif (Map[y-1][x] != WALL) and (Map[y-1][x] != RIVER):
             #print ("valid up move")
             if player.heading()==90:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(90)
-                player.forward(35)
+                player.forward(SIZE)
             return (x, y-1, key)
         #River
         elif Map[y-1][x] == RIVER:
@@ -207,10 +245,10 @@ def moveBackwards(x,y,key,moveDir):
         #Go to the key function.
         if Map[y+1][x] == KEY:
             if player.heading()==270:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(270)
-                player.forward(35)
+                player.forward(SIZE)
             return (x, y+1, keyfun(key))
         #To show that the door is still locked
         elif Map[y+1][x] == DOOR:
@@ -220,50 +258,50 @@ def moveBackwards(x,y,key,moveDir):
         elif Map[y+1][x] == LOCKED_DOOR:
             if key != 1:
                 if player.heading()==270:
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 else:
                     player.setheading(270)
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 return (lockedDoorFun(x,y,key))
             else:
                 if player.heading()==270:
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 else:
                     player.setheading(270)
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 return (lockedDoorFun(x,y,key))
         #Go to the wheel function.
         elif (Map[y+1][x] == WHEEL):
             if player.heading()==270:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(270)
-                player.forward(35)
+                player.forward(SIZE)
             return (x, y+1, wheelfun(key))
         #Go to the sewer function.
         elif Map[y+1][x]==SEWER:
             if player.heading()==270:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(270)
-                player.forward(35)
+                player.forward(SIZE)
             return(x,y+1,sewerfun(key))
         #Go to the drain function.
         elif Map[y+1][x]==DRAIN:
             if player.heading()==270:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(270)
-                player.forward(35)
+                player.forward(SIZE)
             return(x,y+1,drainfun(key))
         #To move down 
         elif (Map[y+1][x] != WALL) and (Map[y+1][x] != RIVER):
             #print ("valid down move")
             if player.heading()==270:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(270)
-                player.forward(35)
+                player.forward(SIZE)
             return (x, y+1, key)
         #River
         elif Map[y+1][x] == RIVER:
@@ -295,10 +333,10 @@ def moveLeft(x,y,key,moveDir):
         #Go to the key function.
         if Map[y][x-1] == KEY:
             if player.heading()==180:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(180)
-                player.forward(35)
+                player.forward(SIZE)
             return(x-1,y,keyfun(key))
         #To show that the door is still locked
         elif Map[y][x-1] == DOOR:
@@ -308,51 +346,51 @@ def moveLeft(x,y,key,moveDir):
         elif Map[y][x-1] == LOCKED_DOOR:
             if key != 1:
                 if player.heading()==180:
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 else:
                     player.setheading(180)
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 return (lockedDoorFun(x,y,key))
             else:
                 if player.heading()==180:
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 else:
                     player.setheading(180)
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 return (lockedDoorFun(x,y,key))
             return (lockedDoorFun(x,y,key))
         #Go to the wheel function.
         elif (Map[y][x-1] == WHEEL):
             if player.heading()==180:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(180)
-                player.forward(35)
+                player.forward(SIZE)
             return (x-1, y, wheelfun(key))
         #Go to the sewer function.
         elif Map[y][x-1]==SEWER:
             if player.heading()==180:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(180)
-                player.forward(35)
+                player.forward(SIZE)
             return(x-1,y,sewerfun(key))
         #Go to the drain function.
         elif Map[y][x-1]==DRAIN:
             if player.heading()==180:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(180)
-                player.forward(35)
+                player.forward(SIZE)
             return(x-1,y,drainfun(key))
         #To move left
         elif (Map[y][x-1] != WALL) and (Map[y][x-1] != RIVER):
             #print ("valid left move")
             if player.heading()==180:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(180)
-                player.forward(35)
+                player.forward(SIZE)
             return (x-1, y, key)
         #River
         elif Map[y][x-1] == RIVER:
@@ -384,68 +422,68 @@ def moveRight(x,y,key,moveDir):
         #Go to the key function.
         if Map[y][x+1] == KEY:
             if player.heading()==0:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(0)
-                player.forward(35)
+                player.forward(SIZE)
             return (x+1, y, keyfun(key))
         #For the door when it locks behind you
         elif Map[y][x+1] == DOOR:
             if player.heading()==0:
-                player.forward(70)
+                player.forward(SIZE*2)
             else:
                 player.setheading(0)
-                player.forward(70)
+                player.forward(SIZE*2)
             print ("You go through a door but it locks behind you.")
             return (x+2,y,key)
         #Go to the locked door function.
         elif Map[y][x+1] == LOCKED_DOOR:
             if key != 1:
                 if player.heading()==0:
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 else:
                     player.setheading(0)
-                    player.forward(0)
+                    player.forward(SIZE*0)
                 return (lockedDoorFun(x,y,key))
             else:
                 if player.heading()==0:
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 else:
                     player.setheading(90)
-                    player.forward(70)
+                    player.forward(SIZE*2)
                 return (lockedDoorFun(x,y,key))
         #Go to the wheel function.
         elif (Map[y][x+1] == WHEEL):
             if player.heading()==0:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(0)
-                player.forward(35)
+                player.forward(SIZE)
             return (x+1, y, wheelfun(key))
         #Go to the sewer function.
         elif Map[y][x+1]==SEWER:
             if player.heading()==0:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(0)
-                player.forward(35)
+                player.forward(SIZE)
             return(x+1,y,sewerfun(key))
         #Go to the drain function.
         elif Map[y][x+1]==DRAIN:
             if player.heading()==0:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(0)
-                player.forward(35)
+                player.forward(SIZE)
             return(x+1,y,drainfun(key))
         #To move right
         elif (Map[y][x+1] != WALL) and (Map[y][x+1] != RIVER):
             #print ("valid right move")
             if player.heading()==0:
-                player.forward(35)
+                player.forward(SIZE)
             else:
                 player.setheading(0)
-                player.forward(35)
+                player.forward(SIZE)
             return (x+1, y, key)
         #River
         elif Map[y][x+1] == RIVER:
@@ -552,26 +590,13 @@ def drainfun(key):
     else:
         print("It's a sewer drain. If you want to get sick, then be my guest.")
         return(key)
-    
-player=Turtle()
-player.clear()
-player.penup()
 
-player.shape("circle")
-player.position()
-player.speed(0)
-player.sety(0)
-player.setheading(270)
-player.goto(-147.5,-97.5)
 listen
 onkey(moveForward,"w")
 onkey(moveBackwards,"s")
 onkey(moveLeft,"a")
 onkey(moveRight,"d")
 
-#Set our starting location
-currX = 1
-currY = 9
 #Instructions before starting the game.
 print("Welcome to the Adventure Game with No Name.")
 time.sleep(2)
@@ -581,11 +606,11 @@ print("Also the person guiding you really doesn't want you to win.")
 time.sleep(2)
 print("So what are you waiting for, get too it.")
 time.sleep(2)
-#draw the map the first time before asking for a move
-#drawMap(currX, currY)
+
 #Forever just let the player move around the map on the path
 #**** Main Game Loop ****
 while True:
+    print("")
     moveDir = input("Enter direction (w,s,a,d): ")
     currX, currY, key = moveForward(currX, currY, key, moveDir)
     currX, currY, key = moveBackwards(currX, currY, key, moveDir)
