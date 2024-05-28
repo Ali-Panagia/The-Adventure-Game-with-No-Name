@@ -9,10 +9,9 @@ import sys
 import time
 import turtle
 from turtle import *
+#setting up the screen.
 screen = Screen()
 screen.setup(800,800)
-#add an image so the wall's image is Pink Floyd's The Wall album
-turtle.addshape("The Wall.gif")
 screenad = 200
 row=11
 column=11
@@ -21,7 +20,7 @@ column=11
 currX = 1
 currY = 9
 
-
+#For drawing the map
 MapDraw=Turtle()
 MapDraw.clear()
 MapDraw.penup()
@@ -37,8 +36,10 @@ MapDraw.pendown()
 MapDraw.hideturtle()
 
 
+#variable
 key = 0
 
+#Constants
 PATH=0
 WALL=1
 PITFALL=2
@@ -68,6 +69,9 @@ Map = [
 
 #Define a function to print our Map and current Player location
 
+#Drawing the map.
+
+#Drawing player
 def drawplayer(x, y):
     player=Turtle()
     player.clear()
@@ -81,6 +85,7 @@ def drawplayer(x, y):
     player.goto(x,y)
     return(player)
 
+#Drawing river
 def flow(x, y, MapDraw):
     MapDraw.penup()
     MapDraw.goto(x, y)
@@ -92,6 +97,7 @@ def flow(x, y, MapDraw):
         MapDraw.left(90)
     MapDraw.end_fill()
 
+#Drawing walls
 def bricks_in_the_wall(x, y, MapDraw):
     MapDraw.penup()
     MapDraw.goto(x, y)
@@ -103,6 +109,7 @@ def bricks_in_the_wall(x, y, MapDraw):
         MapDraw.left(90)
     MapDraw.end_fill()
 
+#Drawing the moveable squares of the map.
 def drawsquare(x, y, MapDraw):
     MapDraw.penup()
     MapDraw.goto(x, y)
@@ -111,6 +118,7 @@ def drawsquare(x, y, MapDraw):
         MapDraw.forward(SIZE)
         MapDraw.left(90)
 
+#The reason why this isn't in a function is because it was hard to define the player as a global.
 for r in range(row):
     for c in range(column):
         x = SIZE*c-screenad
@@ -591,6 +599,7 @@ def drainfun(key):
         print("It's a sewer drain. If you want to get sick, then be my guest.")
         return(key)
 
+#For the movements of the graphics
 listen
 onkey(moveForward,"w")
 onkey(moveBackwards,"s")
