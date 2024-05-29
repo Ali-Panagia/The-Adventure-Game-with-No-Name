@@ -12,6 +12,8 @@ from turtle import *
 #setting up the screen.
 screen = Screen()
 screen.setup(800,800)
+screen.title("The Adventure Game with No Name")
+screen.bgcolor("Dark gray")
 screenad = 200
 row=11
 column=11
@@ -85,6 +87,17 @@ def drawplayer(x, y):
     player.goto(x,y)
     return(player)
 
+def Chicken_dinner(x, y, MapDraw):
+    MapDraw.penup()
+    MapDraw.goto(x, y)
+    MapDraw.pendown()
+    MapDraw.fillcolor("yellow")
+    MapDraw.begin_fill()
+    for square in range(4):
+        MapDraw.forward(SIZE)
+        MapDraw.left(90)
+    MapDraw.end_fill()
+
 #Drawing river
 def flow(x, y, MapDraw):
     MapDraw.penup()
@@ -129,6 +142,8 @@ for r in range(row):
             bricks_in_the_wall(x, y, MapDraw)
         elif (Map[r][c] == RIVER):
             flow(x, y, MapDraw)
+        elif(Map[r][c] == GOAL):
+            Chicken_dinner(x, y, MapDraw)
         else:
             drawsquare(x, y, MapDraw)
     
@@ -515,7 +530,7 @@ def keyfun (key):
     #When you pick up the key for the first time.
     elif (key == 0):
         #Asking you if you want to pick up the key.
-        pickUpKey = input("There is a key on the ground. Do you want to pick it up? y/n ")
+        pickUpKey = screen.textinput("","There is a key on the ground. Do you want to pick it up? y/n ")
         pickupKey=pickUpKey.lower()
 
         if (pickupKey == "yes") or (pickupKey == "y"):
@@ -544,7 +559,7 @@ def lockedDoorFun(x,y,key):
 #Function for the wheel to spin.
 def wheelfun(key):
     #Input for wheel.
-    Gamble=input("There is a wheel where it has a 1/3 chance for you to live, die, or give you a key. Will you spin it? y/n ")
+    Gamble=screen.textinput("","There is a wheel where it has a 1/3 chance for you to live, die, or give you a key. Will you spin it? y/n ")
     gamble=Gamble.lower()
     
     #print("gambling is awesome")
@@ -618,6 +633,7 @@ time.sleep(2)
 
 #Forever just let the player move around the map on the path
 #**** Main Game Loop ****
+screen.tracer(0)
 while True:
     print("")
     moveDir = input("Enter direction (w,s,a,d): ")
