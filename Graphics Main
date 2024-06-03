@@ -22,7 +22,7 @@ column=11
 currX = 1
 currY = 9
 
-#For drawing the map
+#The turtle for drawing the map
 MapDraw=Turtle()
 MapDraw.clear()
 MapDraw.penup()
@@ -100,7 +100,7 @@ def drawsquare(sqcolor, x, y, MapDraw):
         MapDraw.left(90)
     MapDraw.end_fill()
 
-#function for drawing the map
+#function before drawing the map
 def drawMap(currX, currY, row, column, MapDraw):
     for r in range(row):
         for c in range(column):
@@ -124,24 +124,27 @@ def drawMap(currX, currY, row, column, MapDraw):
 #The function will first check if the player can move or hits a wall
 #If the player can move, then the current location will be updated
 #If the player cannot move due to a wall or a river, the location will not be updated
-    
+
+#Moving forward
 def moveForward(x,y,key):
     #assume invalid move is attempted
     badMoveWall = True
     
     #For when the player dies
     if Map[y][x] == PITFALL:
+        print ("")
         print ("You fell in a pitfall and died. Womp. Womp.")
         exit()
     
     #For when the player wins 
     if Map[y][x] == GOAL:
+        print ("")
         print ("You Win! Now what?")
         exit()
 
     #Now check if the move is valid - brute force method - better ways exist
     
-    #If the player moved up
+    #If the player moved forward
     if "w":
 
         #Go to the key function.
@@ -159,6 +162,7 @@ def moveForward(x,y,key):
             else:
                 player.setheading(90)
                 player.forward(SIZE*2)
+            print ("")
             print ("You go through a door but it locks behind you.")
             return (x,y-2,key)
         #Go to the locked door function.
@@ -212,29 +216,34 @@ def moveForward(x,y,key):
             return (x, y-1, key)
         #River
         elif Map[y-1][x] == RIVER:
+            print ("")
             print ("It's a river. That's it.")
             return (x,y,key) #It acts like a wall in the sense of you can't move there.
 
         #they attempted a bad move
         if badMoveWall:
+            print ("")
             print ("You either A moved where a wall was, or B made a invalid move. So try again.")
             return (x,y,key)   #return the same location they are in since no move
 
+#moving backwards
 def moveBackwards(x,y,key):
     #assume invalid move is attempted
     badMoveWall = True
     
     #For when the player dies
     if Map[y][x] == PITFALL:
+        print ("")
         print ("You fell in a pitfall and died. Womp. Womp.")
         exit()
     
     #For when the player wins 
     if Map[y][x] == GOAL:
+        print ("")
         print ("You Win! Now what?")
         exit()
     
-    #If the player moved down
+    #If the player moved backwards
     if "s":
 
         #Go to the key function.
@@ -247,6 +256,7 @@ def moveBackwards(x,y,key):
             return (x, y+1, keyfun(key))
         #To show that the door is still locked
         elif Map[y+1][x] == DOOR:
+            print ("")
             print ("It's still locked.")
             return (x,y,key)
         #Go to the locked door function.
@@ -300,25 +310,30 @@ def moveBackwards(x,y,key):
             return (x, y+1, key)
         #River
         elif Map[y+1][x] == RIVER:
+            print ("")
             print ("It's a river. That's it.")
             return (x,y,key) #It acts like a wall in the sense of you can't move there.
 
         #they attempted a bad move
         if badMoveWall:
+            print ("")
             print ("You either A moved where a wall was, or B made a invalid move. So try again.")
             return (x,y,key)   #return the same location they are in since no move
 
+#moving left
 def moveLeft(x,y,key):
     #assume invalid move is attempted
     badMoveWall = True
     
     #For when the player dies
     if Map[y][x] == PITFALL:
+        print ("")
         print ("You fell in a pitfall and died. Womp. Womp.")
         exit()
     
     #For when the player wins 
     if Map[y][x] == GOAL:
+        print ("")
         print ("You Win! Now what?")
         exit()
     
@@ -335,6 +350,7 @@ def moveLeft(x,y,key):
             return(x-1,y,keyfun(key))
         #To show that the door is still locked
         elif Map[y][x-1] == DOOR:
+            print ("")
             print ("It's still locked.")
             return (x,y,key)
         #Go to the locked door function.
@@ -388,26 +404,30 @@ def moveLeft(x,y,key):
             return (x-1, y, key)
         #River
         elif Map[y][x-1] == RIVER:
+            print ("")
             print ("It's a river. That's it.")
             return (x,y,key) #It acts like a wall in the sense of you can't move there.
 
         #they attempted a bad move
         if badMoveWall:
+            print ("")
             print ("You either A moved where a wall was, or B made a invalid move. So try again.")
             return (x,y,key)   #return the same location they are in since no move
 
-
+#moving right
 def moveRight(x,y,key):
     #assume invalid move is attempted
     badMoveWall = True
 
     #For when the player dies
     if Map[y][x] == PITFALL:
+        print ("")
         print ("You fell in a pitfall and died. Womp. Womp.")
         exit()
     
     #For when the player wins 
-    if Map[y][x] == GOAL:
+    if Map[y][x+1] == GOAL:
+        print ("")
         print ("You Win! Now what?")
         exit()
 
@@ -428,6 +448,7 @@ def moveRight(x,y,key):
             else:
                 player.setheading(0)
                 player.forward(SIZE*2)
+            print ("")
             print ("You go through a door but it locks behind you.")
             return (x+2,y,key)
         #Go to the locked door function.
@@ -481,6 +502,7 @@ def moveRight(x,y,key):
             return (x+1, y, key)
         #River
         elif Map[y][x+1] == RIVER:
+            print ("")
             print ("It's a river. That's it.")
             return (x,y,key) #It acts like a wall in the sense of you can't move there.
         
@@ -489,6 +511,7 @@ def moveRight(x,y,key):
 
         #they attempted a bad move
         if badMoveWall:
+            print ("")
             print ("You either A moved where a wall was, or B made a invalid move. So try again.")
             return (x,y,key)   #return the same location they are in since no move
 
@@ -496,20 +519,25 @@ def moveRight(x,y,key):
 def keyfun (key):
     #you can't get more than 1 key.
     if (key >= 1) or (key <= -1):
+        print ("")
         print ("There is nothing here.")
         return (key)
     #When you pick up the key for the first time.
     elif (key == 0):
         #Asking you if you want to pick up the key.
+        print ("")
         pickUpKey = input("There is a key on the ground. Do you want to pick it up? y/n ")
         pickupKey=pickUpKey.lower()
 
         if (pickupKey == "yes") or (pickupKey == "y"):
+            print ("")
             print ("You found a key!")
             key=key+1
+            print ("")
             print ("You have",key,"key(s).")
             return (key)
         else:
+            print ("")
             print ("Well why did you come here in the first place.")
             return (key)
         
@@ -518,18 +546,22 @@ def keyfun (key):
 def lockedDoorFun(x,y,key):
     #The locked door will never open if you don't have a key.
     if (key != 1):
+        print ("")
         print("You don't have a key, so... yeah.")
         return (x,y,key)
     #When you open the locked door with a key.
     else:
+        print ("")
         print ("you unlocked the door!")
         key=key-1
+        print ("")
         print ("You have",key,"key(s).")
         return (x-2,y,key)
     
 #Function for the wheel to spin.
 def wheelfun(key):
     #Input for wheel.
+    print ("")
     Gamble=input("There is a wheel where it has a 1/3 chance for you to live, die, or give you a key. Will you spin it? y/n ")
     gamble=Gamble.lower()
     
@@ -541,53 +573,66 @@ def wheelfun(key):
         #If the player gets a key from spinning the wheel.
         if (spin == 1):
             if (key == 0):
+                print ("")
                 print ("It worked out for you and you got a key!")
                 key=key+1
+                print ("")
                 print ("You have",key,"key(s).")
                 return (key)
             #I was out of ideas when I wrote this.
             else:
+                print ("")
                 print ("Ok I have no idea for if the key value is different, so I'm just going to say that you win.")
                 exit()
         #If the player dies from spinning the wheel.
         elif (spin == 2):
+            print ("")
             print ("Some wierd magic twisted your insides until you poped. The moral of the story there is to never gamble.")
             exit()
         #If the player lives when spinning the wheel.
         else:
+            print ("")
             print ("You live, sadly.")
             return (key)
     #If you don't want to test your luck.
     elif (gamble == "no") or (gamble == "n"):
+        print ("")
         print ("You resist the urge and press on.")
         return (key)
     #If the game doesn't register what you are saying.
     else:
+        print ("")
         print("Um... ok?")
         return (key)
 
 #Function for dropping the key in the sewer.
 def sewerfun(key):
     if (key >= 1):
+        print ("")
         print ("So the key dropped from your pockets into the sewers. Don't worry, you can get it back from the sewer drain.")
         key=key-2
         #The reason why I subtracted 2 from the key is because making it 0 would result in getting the key back in the drain at the start.
         return(key)
     else:
+        print ("")
         print("It's the sewer. Don't drop anything in there.")
         return(key)
 
 #Function for getting the key back from the sewer drain.
 def drainfun(key):
     if (key == -1):
+        print ("")
         print ("It may be gross, but you got your key back.")
         key=key+2
         return(key)
     else:
+        print ("")
         print("It's a sewer drain. If you want to get sick, then be my guest.")
         return(key)
 
+#To make it compatable with onkey, I set up the functios like this so the variables can be used for the original map as well.
 def Forward():
+    #I had to use globals for the functions becuase you can't pass variables in with onkey.
     global currX, currY, key
     currX, currY, key = moveForward(currX, currY, key)
     return()
@@ -611,7 +656,7 @@ def Right():
 #**** Main Game Loop ****
 screen.tracer(0)
 
-#Drawing the map and player
+#Calling the function for drawing the map and player
 player=drawMap(currX, currY, row, column, MapDraw)
 
 #For the movements of the graphics
@@ -624,10 +669,13 @@ onkey(Right,"d")
 #Instructions before starting the game.
 print("Welcome to the Adventure Game with No Name.")
 time.sleep(2)
+print ("")
 print("Your goal is to get to the middle of the map where the yellow square is.")
 time.sleep(2)
+print ("")
 print("Also the person guiding you really doesn't want you to win.")
 time.sleep(2)
+print ("")
 print("So what are you waiting for, get too it.")
 time.sleep(2)
 
