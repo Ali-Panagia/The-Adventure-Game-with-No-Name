@@ -9,7 +9,7 @@
 # a is to move left,
 # s is to move down,
 # and d is to move right.
-# after you put in the movement of choice, press enter
+# after you put in the movement of choice, press enter (ONLY FOR TEXT GAME)
 
 # Interactions
 
